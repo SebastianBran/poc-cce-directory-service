@@ -28,3 +28,9 @@ podman build -t docker.io/sebastianbran/poc-cce-directory-service:latest .
 ```shell
 cd kubernetes
 ```
+
+* Crear la infraestructura
+
+```shell
+kubectl apply -f .
+```
