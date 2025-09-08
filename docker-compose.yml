@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+  poc-cce-database:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: poc-cce
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+    ports:
+      - "5432:5432"
+
+  poc-cce-redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+
+  redis-insight:
+    image: redis/redisinsight:latest
+    ports:
+      - "5540:5540"
+
+  poc-cce-directory-service:
+    image: poc-cce-directory-service:latest
+    depends_on:
+      - poc-cce-database
+    environment:
+      ENV: prod
+      DB_HOST: poc-cce-database
+      DB_PORT: 5432
+      DB_NAME: poc-cce
+      DB_USER: admin
+      DB_PASSWORD: admin123
+      REDIS_HOST: poc-cce-redis
+      REDIS_PORT: 6379
+    ports:
+      - "8080:8080"

@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: poc-cce-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: poc-cce-redis
+  template:
+    metadata:
+      labels:
+        app: poc-cce-redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:latest
+          ports:
+            - containerPort: 6379
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: poc-cce-redis-insight
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: poc-cce-redis-insight
+  template:
+    metadata:
+      labels:
+        app: poc-cce-redis-insight
+    spec:
+      containers:
+        - name: redis-insight
+          image: redis/redisinsight:latest
+          ports:
+            - containerPort: 5540
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: poc-cce-redis-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: poc-cce-redis
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: poc-cce-redis-insight-svc
+spec:
+  type: LoadBalancer
+  selector:
+    app: poc-cce-redis-insight
+  ports:
+    - protocol: TCP
+      port: 5540
+      targetPort: 5540
