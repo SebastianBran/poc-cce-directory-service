@@ -1,0 +1,115 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otel-collector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: otel-collector
+  template:
+    metadata:
+      labels:
+        app: otel-collector
+    spec:
+      containers:
+        - name: otel-collector
+          image: otel/opentelemetry-collector
+          ports:
+            - containerPort: 4317  # gRPC OTLP
+            - containerPort: 4318  # HTTP OTLP
+          volumeMounts:
+            - name: otel-config
+              mountPath: /etc/otel
+            - name: otel-storage
+              mountPath: /tmp/otel
+      volumes:
+        - name: otel-config
+          configMap:
+            name: otel-config
+        - name: otel-storage
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: otel-collector-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: otel-collector
+  ports:
+    - name: grpc-otlp
+      port: 4317
+      targetPort: 4317
+    - name: http-otlp
+      port: 4318
+      targetPort: 4318
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: otel-config
+data:
+  otel-config.yaml: |
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+          http:
+            endpoint: 0.0.0.0:4318
+
+    exporters:
+      logging:
+        loglevel: debug
+      otlp:
+        endpoint: tempo-svc:4317
+        tls:
+          insecure: true
+
+    service:
+      telemetry:
+        logs:
+          level: "debug"
+      pipelines:
+        traces:
+          receivers: [otlp]
+          exporters: [logging, otlp]
+#apiVersion: v1
+#kind: ConfigMap
+#metadata:
+#  name: otel-config
+#data:
+#  otel-config.yaml: |
+#    receivers:
+#      otlp:
+#        protocols:
+#          grpc:
+#          http:
+#
+#    exporters:
+#      logging:
+#        loglevel: debug
+#      otlp/tempo:
+#        endpoint: tempo-svc:4317
+#        tls:
+#          insecure: true
+#        protocols:
+#          grpc:
+#      loki:
+#        endpoint: "http://loki-svc:3100/loki/api/v1/push"
+#        tls:
+#          insecure: true
+#        labels:
+#          job: "poc-cce-job"
+#          app: "directory-service"
+#
+#    service:
+#        pipelines:
+#          traces:
+#            receivers: [otlp]
+#            exporters: [logging, otlp/tempo]
+#          logs:
+#            receivers: [otlp]
+#            exporters: [logging, loki]
