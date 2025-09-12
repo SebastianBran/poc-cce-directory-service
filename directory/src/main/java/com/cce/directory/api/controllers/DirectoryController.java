@@ -30,7 +30,9 @@ public class DirectoryController {
 
     @PostMapping()
     public DirectoryEntity create(@Valid @RequestBody CreateDirectoryRequestDto createDirectoryRequestDto) {
-        DirectoryEntity directoryEntity = new DirectoryEntity(createDirectoryRequestDto.getPhoneNumber(), createDirectoryRequestDto.getEntityId());
+        DirectoryEntity directoryEntity =
+                new DirectoryEntity(createDirectoryRequestDto.getPhoneNumber(),
+                        createDirectoryRequestDto.getEntityId());
         return this.directoryService.create(directoryEntity);
     }
 }
