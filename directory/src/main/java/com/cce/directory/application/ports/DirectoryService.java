@@ -1,6 +1,6 @@
-package com.cce.directory_service.application.ports;
+package com.cce.directory.application.ports;
 
-import com.cce.directory_service.domain.entity.DirectoryEntity;
+import com.cce.directory.domain.entity.DirectoryEntity;
 
 import java.util.List;
 import java.util.Optional;

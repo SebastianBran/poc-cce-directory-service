@@ -1,4 +1,4 @@
-package com.cce.directory_service;
+package com.cce.directory;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

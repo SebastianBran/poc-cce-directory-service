@@ -1,8 +1,8 @@
-package com.cce.directory_service.infrastructure;
+package com.cce.directory.infrastructure;
 
-import com.cce.directory_service.application.ports.DirectoryRepository;
-import com.cce.directory_service.application.ports.DirectoryService;
-import com.cce.directory_service.domain.entity.DirectoryEntity;
+import com.cce.directory.application.ports.DirectoryRepository;
+import com.cce.directory.application.ports.DirectoryService;
+import com.cce.directory.domain.entity.DirectoryEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;

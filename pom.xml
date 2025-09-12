@@ -11,7 +11,8 @@
 	<groupId>com.cce</groupId>
 	<artifactId>directory-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>directory-service</name>
+    <packaging>pom</packaging>
+    <name>directory-service</name>
 	<description>POC CCE Directory Service</description>
 	<url/>
 	<licenses>
@@ -20,7 +21,10 @@
 	<developers>
 		<developer/>
 	</developers>
-	<scm>
+    <modules>
+        <module>directory</module>
+    </modules>
+    <scm>
 		<connection/>
 		<developerConnection/>
 		<tag/>
@@ -61,15 +65,6 @@
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-
-        <!--<dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-exporter-otlp</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-tracing-bridge-otel</artifactId>
-        </dependency>-->
     </dependencies>
 
 	<build>

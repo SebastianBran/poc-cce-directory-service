@@ -1,8 +1,8 @@
-package com.cce.directory_service.api.controllers;
+package com.cce.directory.api.controllers;
 
-import com.cce.directory_service.api.dto.request.CreateDirectoryRequestDto;
-import com.cce.directory_service.application.ports.DirectoryService;
-import com.cce.directory_service.domain.entity.DirectoryEntity;
+import com.cce.directory.api.dto.request.CreateDirectoryRequestDto;
+import com.cce.directory.application.ports.DirectoryService;
+import com.cce.directory.domain.entity.DirectoryEntity;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 

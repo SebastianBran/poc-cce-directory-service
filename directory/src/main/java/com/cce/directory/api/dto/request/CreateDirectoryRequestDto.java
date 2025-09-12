@@ -1,41 +1,24 @@
-package com.cce.directory_service.domain.entity;
+package com.cce.directory.api.dto.request;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
-import java.io.Serializable;
-
-@Entity
-@Table(name = "directory")
-public class DirectoryEntity implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class CreateDirectoryRequestDto {
     @NotNull
     @NotBlank
-    @Column(name = "phone_number", nullable = false)
+    @Size(min = 9, max = 9)
     private String phoneNumber;
 
     @NotNull
     @NotBlank
-    @Column(name = "entity_id", nullable = false)
     private String entityId;
 
-    public DirectoryEntity() {}
+    public CreateDirectoryRequestDto() {}
 
-    public DirectoryEntity(String phoneNumber, String entityId) {
+    public CreateDirectoryRequestDto(String phoneNumber, String entityId) {
         this.phoneNumber = phoneNumber;
         this.entityId = entityId;
-    }
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getPhoneNumber() {
