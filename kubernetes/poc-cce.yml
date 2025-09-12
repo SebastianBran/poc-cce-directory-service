@@ -35,11 +35,9 @@ spec:
             - name: OTEL_SERVICE_NAME
               value: directory-service
             - name: OTEL_EXPORTER_OTLP_ENDPOINT
-              value: http://tempo-svc:4317
+              value: http://otel-collector-svc:4317
             - name: OTEL_EXPORTER_OTLP_PROTOCOL
               value: grpc
-            - name: OTLP_TRACING_ENDPOINT
-              value: http://tempo-svc:4318/v1/traces
           ports:
             - containerPort: 8080
 ---
