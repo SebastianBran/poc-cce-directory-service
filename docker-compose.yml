@@ -21,12 +21,12 @@ services:
       - "5540:5540"
 
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana:latest
     ports:
       - "3000:3000"
 
   otel-collector:
-    image: otel/opentelemetry-collector
+    image: otel/opentelemetry-collector:latest
     ports:
       - "4317:4317"
       - "4318:4318"
@@ -36,7 +36,7 @@ services:
       - --config=/etc/otel-config.yml
 
   tempo:
-    image: grafana/tempo
+    image: grafana/tempo:latest
     ports:
       - "3100:3100"
       - "9095"
