@@ -2,23 +2,14 @@
 
 ## Crear imagen docker del servicio
 
-* Imagen local
+* Crear imagen docker
 
 ```shell
-docker build -t poc-cce-directory-service:latest .
+#docker build -f <module>/Dockerfile -t sebastianbran/poc-cce-directory-service .
+docker build -f directory/Dockerfile -t sebastianbran/poc-cce-directory-service .
 
-#with podman
-podman build -t poc-cce-directory-service:latest .
-```
-
-* Imagen para el repositorio público de Docker Hub
-
-```shell
-#docker build -t <usuario-docker-hub>/<nombre-de-la-imagen>:<version> .
-docker build -t sebastianbran/poc-cce-directory-service:latest .
-
-#with podman
-podman build -t docker.io/sebastianbran/poc-cce-directory-service:latest .
+#Con podman
+podman build -f directory/Dockerfile -t sebastianbran/poc-cce-directory-service .
 ```
 
 ## Crear recursos de kubernetes
