@@ -3,12 +3,18 @@ spring:
     name: api-gateway
   cloud:
     gateway:
-      routes:
-        - id: directory
-          uri: ${DIRECTORY_SERVICE_URI}
-          predicates:
-            - Path=/api/v1/directory/**
-        - id: transaction
-          uri: ${TRANSACTION_SERVICE_URI}
-          predicates:
-            - Path=/api/v1/transaction/**
+      server:
+        webflux:
+          routes:
+            - id: directory
+              uri: ${DIRECTORY_SERVICE_URI}
+              predicates:
+                - Path=/api/v1/directory/**
+            - id: transaction
+              uri: ${TRANSACTION_SERVICE_URI}
+              predicates:
+                - Path=/api/v1/transaction/**
+            - id: notification
+              uri: ${NOTIFICATION_SERVICE_URI}
+              predicates:
+                - Path=/api/v1/notification/**
