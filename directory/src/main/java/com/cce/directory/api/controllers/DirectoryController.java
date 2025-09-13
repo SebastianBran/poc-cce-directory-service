@@ -1,6 +1,7 @@
 package com.cce.directory.api.controllers;
 
 import com.cce.directory.api.dto.request.CreateDirectoryRequestDto;
+import com.cce.directory.api.dto.response.ExistUserInEntityResponseDto;
 import com.cce.directory.application.ports.DirectoryService;
 import com.cce.directory.domain.entity.DirectoryEntity;
 import jakarta.validation.Valid;
@@ -26,6 +27,12 @@ public class DirectoryController {
     @GetMapping()
     public List<DirectoryEntity> getAll() {
         return this.directoryService.getAll();
+    }
+
+    @GetMapping("/user-exists-in-entity")
+    public ExistUserInEntityResponseDto existInEntity(@RequestParam String phoneNumber, @RequestParam String entityId) {
+        Boolean exist = this.directoryService.isUserInEntity(phoneNumber, entityId);
+        return new ExistUserInEntityResponseDto(exist);
     }
 
     @PostMapping()

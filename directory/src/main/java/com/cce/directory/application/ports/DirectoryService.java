@@ -9,4 +9,5 @@ public interface DirectoryService {
     Optional<DirectoryEntity> getById(Long id);
     List<DirectoryEntity> getAll();
     DirectoryEntity create(DirectoryEntity directoryEntity);
+    boolean isUserInEntity(String phoneNumber, String entityId);
 }
