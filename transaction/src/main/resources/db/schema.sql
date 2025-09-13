@@ -5,5 +5,6 @@ CREATE TABLE money_transaction (
     sender_phone_number VARCHAR(255) NOT NULL,
     receiver_phone_number VARCHAR(255) NOT NULL,
     amount BIGINT NOT NULL,
-    currency BIGINT NOT NULL
+    currency BIGINT NOT NULL,
+    entity_id VARCHAR(255) NOT NULL
 );

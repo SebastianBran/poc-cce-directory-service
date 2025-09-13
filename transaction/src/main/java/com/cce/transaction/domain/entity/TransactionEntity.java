@@ -31,13 +31,19 @@ public class TransactionEntity implements Serializable {
     @Column(name = "currency", nullable = false)
     private Long currency;
 
+    @NotNull
+    @NotBlank
+    @Column(name = "entity_id", nullable = false)
+    private String entityId;
+
     public TransactionEntity() {}
 
-    public TransactionEntity(String senderPhoneNumber, String receiverPhoneNumber, Long amount, Long currency) {
+    public TransactionEntity(String senderPhoneNumber, String receiverPhoneNumber, Long amount, Long currency, String entityId) {
         this.senderPhoneNumber = senderPhoneNumber;
         this.receiverPhoneNumber = receiverPhoneNumber;
         this.amount = amount;
         this.currency = currency;
+        this.entityId = entityId;
     }
 
     public Long getId() {
@@ -78,5 +84,13 @@ public class TransactionEntity implements Serializable {
 
     public void setCurrency(Long currency) {
         this.currency = currency;
+    }
+
+    public String getEntityId() {
+        return entityId;
+    }
+
+    public void setEntityId(String entityId) {
+        this.entityId = entityId;
     }
 }

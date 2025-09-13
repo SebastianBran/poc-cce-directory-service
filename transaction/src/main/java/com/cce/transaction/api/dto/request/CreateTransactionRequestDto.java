@@ -21,13 +21,18 @@ public class CreateTransactionRequestDto {
     @NotNull
     private Long currency;
 
+    @NotNull
+    @NotBlank
+    private String entityId;
+
     public CreateTransactionRequestDto() {}
 
-    public CreateTransactionRequestDto(String senderPhoneNumber, String receiverPhoneNumber, Long amount, Long currency) {
+    public CreateTransactionRequestDto(String senderPhoneNumber, String receiverPhoneNumber, Long amount, Long currency, String entityId) {
         this.senderPhoneNumber = senderPhoneNumber;
         this.receiverPhoneNumber = receiverPhoneNumber;
         this.amount = amount;
         this.currency = currency;
+        this.entityId = entityId;
     }
 
     public Long getAmount() {
@@ -60,5 +65,13 @@ public class CreateTransactionRequestDto {
 
     public void setReceiverPhoneNumber(String receiverPhoneNumber) {
         this.receiverPhoneNumber = receiverPhoneNumber;
+    }
+
+    public String getEntityId() {
+        return entityId;
+    }
+
+    public void setEntityId(String entityId) {
+        this.entityId = entityId;
     }
 }

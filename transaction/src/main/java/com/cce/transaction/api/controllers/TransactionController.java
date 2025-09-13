@@ -28,7 +28,8 @@ public class TransactionController {
                 new TransactionEntity(createTransactionRequestDto.getSenderPhoneNumber(),
                         createTransactionRequestDto.getReceiverPhoneNumber(),
                         createTransactionRequestDto.getAmount(),
-                        createTransactionRequestDto.getCurrency());
+                        createTransactionRequestDto.getCurrency(),
+                        createTransactionRequestDto.getEntityId());
         return this.transactionService.create(transactionEntity);
     }
 }
