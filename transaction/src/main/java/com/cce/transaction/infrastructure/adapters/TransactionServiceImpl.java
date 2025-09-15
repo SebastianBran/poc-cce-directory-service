@@ -2,9 +2,11 @@ package com.cce.transaction.infrastructure.adapters;
 
 import com.cce.transaction.api.dto.response.ExistUserInEntityResponseDto;
 import com.cce.transaction.application.ports.DirectoryServiceClient;
+import com.cce.transaction.application.ports.NotificationService;
 import com.cce.transaction.application.ports.TransactionRepository;
 import com.cce.transaction.application.ports.TransactionService;
 import com.cce.transaction.domain.entity.TransactionEntity;
+import com.cce.transaction.domain.entity.TransactionNotificationEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -19,10 +21,15 @@ public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final DirectoryServiceClient directoryServiceClient;
+    private final NotificationService notificationService;
 
-    public TransactionServiceImpl(TransactionRepository transactionRepository, DirectoryServiceClient directoryServiceClient) {
+    public TransactionServiceImpl(
+            TransactionRepository transactionRepository,
+            DirectoryServiceClient directoryServiceClient,
+            NotificationService notificationService) {
         this.transactionRepository = transactionRepository;
         this.directoryServiceClient = directoryServiceClient;
+        this.notificationService = notificationService;
     }
 
     @Override
@@ -45,6 +52,15 @@ public class TransactionServiceImpl implements TransactionService {
                     transactionEntity.getSenderPhoneNumber(),
                     transactionEntity.getReceiverPhoneNumber(),
                     transactionEntity.getEntityId());
+
+            TransactionNotificationEntity transactionNotificationEntity =
+                    new TransactionNotificationEntity(
+                            transactionEntity.getSenderEmail(),
+                            transactionEntity.getReceiverPhoneNumber(),
+                            transactionEntity.getAmount()
+                    );
+
+            this.notificationService.sendNotification(transactionNotificationEntity);
 
             return this.transactionRepository.save(transactionEntity);
         }

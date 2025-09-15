@@ -26,6 +26,7 @@ public class TransactionController {
     public TransactionEntity create(@Valid @RequestBody CreateTransactionRequestDto createTransactionRequestDto) {
         TransactionEntity transactionEntity =
                 new TransactionEntity(createTransactionRequestDto.getSenderPhoneNumber(),
+                        createTransactionRequestDto.getSenderEmail(),
                         createTransactionRequestDto.getReceiverPhoneNumber(),
                         createTransactionRequestDto.getAmount(),
                         createTransactionRequestDto.getCurrency(),

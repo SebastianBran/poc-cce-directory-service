@@ -2,11 +2,12 @@ spring:
   config:
     activate:
       on-profile: dev
-
   datasource:
     url: jdbc:postgresql://localhost:5432/poc-cce
     username: admin
     password: admin123
+  kafka:
+    bootstrap-servers: localhost:9092
 
 rest:
   client:

@@ -1,46 +1,31 @@
-package com.cce.notification.domain.entity;
+package com.cce.notification.api.dto.request;
 
-import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
-import java.io.Serializable;
-
-@Entity
-@Table(name = "notification")
-public class NotificationEntity implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class CreateTransactionNotificationRequest {
     @NotNull
     @NotBlank
-    @Column(name = "sender_email", nullable = false)
+    @Email
     private String senderEmail;
 
     @NotNull
     @NotBlank
-    @Column(name = "receiver_phone_number", nullable = false)
+    @Size(min = 9, max = 9)
     private String receiverPhoneNumber;
 
     @NotNull
-    @Column(name = "amount", nullable = false)
     private Long amount;
 
-    public NotificationEntity() {}
+    public CreateTransactionNotificationRequest() {
+    }
 
-    public NotificationEntity(String senderEmail, String receiverPhoneNumber, Long amount) {
+    public CreateTransactionNotificationRequest(String senderEmail, String receiverPhoneNumber, Long amount) {
         this.senderEmail = senderEmail;
         this.receiverPhoneNumber = receiverPhoneNumber;
         this.amount = amount;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getSenderEmail() {

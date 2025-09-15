@@ -20,6 +20,11 @@ public class TransactionEntity implements Serializable {
 
     @NotNull
     @NotBlank
+    @Column(name = "sender_email", nullable = false)
+    private String senderEmail;
+
+    @NotNull
+    @NotBlank
     @Column(name = "receiver_phone_number", nullable = false)
     private String receiverPhoneNumber;
 
@@ -38,8 +43,9 @@ public class TransactionEntity implements Serializable {
 
     public TransactionEntity() {}
 
-    public TransactionEntity(String senderPhoneNumber, String receiverPhoneNumber, Long amount, Long currency, String entityId) {
+    public TransactionEntity(String senderPhoneNumber, String senderEmail, String receiverPhoneNumber, Long amount, Long currency, String entityId) {
         this.senderPhoneNumber = senderPhoneNumber;
+        this.senderEmail = senderEmail;
         this.receiverPhoneNumber = receiverPhoneNumber;
         this.amount = amount;
         this.currency = currency;
@@ -60,6 +66,14 @@ public class TransactionEntity implements Serializable {
 
     public void setSenderPhoneNumber(String senderPhoneNumber) {
         this.senderPhoneNumber = senderPhoneNumber;
+    }
+
+    public String getSenderEmail() {
+        return senderEmail;
+    }
+
+    public void setSenderEmail(String senderEmail) {
+        this.senderEmail = senderEmail;
     }
 
     public String getReceiverPhoneNumber() {
