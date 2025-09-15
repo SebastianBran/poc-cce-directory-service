@@ -30,7 +30,7 @@ spec:
           image: grafana/loki:latest
           args:
             - -config.file=/etc/loki/loki.yaml
-            - -target=all              # modo monolítico
+            - -target=all
           ports:
             - containerPort: 3100
               name: http
@@ -44,7 +44,7 @@ spec:
           configMap:
             name: loki-config
         - name: loki-storage
-          emptyDir: {}                  # para POC; en prod usa PVC
+          emptyDir: {}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -64,7 +64,6 @@ data:
           store: inmemory
       replication_factor: 1
 
-    # Ejemplo simple basado en TSDB + filesystem para pruebas locales
     schema_config:
       configs:
         - from: 2020-05-15
@@ -79,13 +78,11 @@ data:
       filesystem:
         directory: /var/loki/chunks
 
-    # Habilita ingestión de OTLP y structured metadata para logs OTLP
     limits_config:
       allow_structured_metadata: true
 
     distributor:
       otlp_config:
-        # Lista reducida de atributos de recurso para index labels (evitar cardinalidad alta)
         default_resource_attributes_as_index_labels:
           - service.name
           - service.namespace

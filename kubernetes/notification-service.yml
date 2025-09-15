@@ -28,10 +28,6 @@ spec:
               value: admin
             - name: DB_PASSWORD
               value: admin123
-            - name: REDIS_HOST
-              value: redis-svc
-            - name: REDIS_PORT
-              value: "6379"
             - name: OTEL_SERVICE_NAME
               value: notification-service
             - name: OTEL_EXPORTER_OTLP_ENDPOINT
