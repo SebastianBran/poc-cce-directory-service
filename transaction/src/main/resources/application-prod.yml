@@ -7,3 +7,8 @@ spring:
     url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
     username: ${DB_USER}
     password: ${DB_PASSWORD}
+
+rest:
+  client:
+    api-gateway:
+      base-url: ${REST_CLIENT_API_GATEWAY_BASE_URL}
