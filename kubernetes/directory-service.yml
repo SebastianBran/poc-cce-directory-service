@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: poc-cce-directory-service
+  name: directory-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: poc-cce-directory-service
+      app: directory-service
   template:
     metadata:
       labels:
-        app: poc-cce-directory-service
+        app: directory-service
     spec:
       containers:
         - name: directory-service
@@ -19,7 +19,7 @@ spec:
             - name: ENV
               value: prod
             - name: DB_HOST
-              value: poc-cce-database-svc
+              value: database-svc
             - name: DB_PORT
               value: "5432"
             - name: DB_NAME
@@ -29,7 +29,7 @@ spec:
             - name: DB_PASSWORD
               value: admin123
             - name: REDIS_HOST
-              value: poc-cce-redis-svc
+              value: redis-svc
             - name: REDIS_PORT
               value: "6379"
             - name: OTEL_SERVICE_NAME
@@ -44,11 +44,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: poc-cce-directory-service-svc
+  name: directory-service-svc
 spec:
   type: LoadBalancer
   selector:
-    app: poc-cce-directory-service
+    app: directory-service
   ports:
     - protocol: TCP
       port: 8080
