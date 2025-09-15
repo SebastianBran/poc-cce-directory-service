@@ -6,9 +6,7 @@ distributor:
     otlp:
       protocols:
         grpc:
-          endpoint: 0.0.0.0:4317   # <— explicitly tell Tempo to listen here
-        http:
-          endpoint: 0.0.0.0:4318   # <— optional, for OTLP/HTTP
+          endpoint: 0.0.0.0:4317
 
 ingester:
   trace_idle_period: 10s

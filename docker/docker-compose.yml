@@ -1,0 +1,132 @@
+version: '3.8'
+services:
+  database:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: poc-cce
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+
+  redis-insight:
+    image: redis/redisinsight:latest
+    ports:
+      - "5540:5540"
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+
+  otel-collector:
+    image: otel/opentelemetry-collector:latest
+    ports:
+      - "4317"
+      - "8889"
+    volumes:
+      - ./configs/otel-config.yml:/etc/otel-config.yml
+    command:
+      - --config=/etc/otel-config.yml
+
+  tempo:
+    image: grafana/tempo:latest
+    ports:
+      - "3100"
+      - "9095"
+      - "4317"
+    volumes:
+      - ./configs/tempo-config.yml:/etc/tempo-config.yml
+    command:
+      - -config.file=/etc/tempo-config.yml
+
+  loki:
+    image: grafana/loki:latest
+    ports:
+      - "3100"
+    volumes:
+      - ./configs/loki-config.yml:/etc/loki-config.yml
+    command:
+      - -config.file=/etc/loki-config.yml
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090"
+    volumes:
+      - ./configs/prometheus-config.yml:/etc/prometheus-config.yml
+    command:
+      - --config.file=/etc/prometheus-config.yml
+
+  api-gateway:
+    image: sebastianbran/poc-cce-api-gateway:latest
+    environment:
+      ENV: prod
+      DIRECTORY_SERVICE_URI: http://directory-service:8080
+      TRANSACTION_SERVICE_URI: http://transaction-service:8081
+      NOTIFICATION_SERVICE_URI: http://notification-service:8083
+      OTEL_SERVICE_NAME: api-gateway
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+      OTEL_EXPORTER_OTLP_PROTOCOL: grpc
+    ports:
+      - "8082:8082"
+
+  directory-service:
+    image: sebastianbran/poc-cce-directory-service:latest
+    depends_on:
+      - database
+    environment:
+      ENV: prod
+      DB_HOST: database
+      DB_PORT: 5432
+      DB_NAME: poc-cce
+      DB_USER: admin
+      DB_PASSWORD: admin123
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      OTEL_SERVICE_NAME: directory-service
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+      OTEL_EXPORTER_OTLP_PROTOCOL: grpc
+    ports:
+      - "8080:8080"
+
+  transaction-service:
+    image: sebastianbran/poc-cce-transaction-service:latest
+    depends_on:
+      - database
+    environment:
+      ENV: prod
+      DB_HOST: database
+      DB_PORT: 5432
+      DB_NAME: poc-cce
+      DB_USER: admin
+      DB_PASSWORD: admin123
+      REST_CLIENT_API_GATEWAY_BASE_URL: http://api-gateway:8082
+      OTEL_SERVICE_NAME: transaction-service
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+      OTEL_EXPORTER_OTLP_PROTOCOL: grpc
+    ports:
+      - "8081:8081"
+
+  notification-service:
+    image: sebastianbran/poc-cce-notification-service:latest
+    depends_on:
+      - database
+    environment:
+      ENV: prod
+      DB_HOST: database
+      DB_PORT: 5432
+      DB_NAME: poc-cce
+      DB_USER: admin
+      DB_PASSWORD: admin123
+      OTEL_SERVICE_NAME: notification-service
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+      OTEL_EXPORTER_OTLP_PROTOCOL: grpc
+    ports:
+      - "8083:8083"
