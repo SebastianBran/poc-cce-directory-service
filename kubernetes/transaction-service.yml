@@ -29,7 +29,7 @@ spec:
             - name: DB_PASSWORD
               value: admin123
             - name: REST_CLIENT_API_GATEWAY_BASE_URL
-              value: http://api-gateway-svc:8082
+              value: http://ingress-nginx-controller.ingress-nginx.svc.cluster.local
             - name: OTEL_SERVICE_NAME
               value: transaction-service
             - name: OTEL_EXPORTER_OTLP_ENDPOINT
