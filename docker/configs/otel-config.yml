@@ -42,6 +42,6 @@ service:
       processors: [batch]
       exporters: [otlphttp/loki]
     metrics:
-      receivers: [otlp]
+      receivers: [otlp, prometheus]
       processors: [batch]
       exporters: [prometheus]

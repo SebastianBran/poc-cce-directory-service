@@ -24,7 +24,6 @@
     <modules>
         <module>directory</module>
         <module>transaction</module>
-        <module>api-gateway</module>
         <module>notification</module>
     </modules>
     <scm>
