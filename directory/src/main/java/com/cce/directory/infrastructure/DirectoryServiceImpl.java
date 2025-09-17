@@ -41,6 +41,7 @@ public class DirectoryServiceImpl implements DirectoryService {
     }
 
     @Override
+    @Cacheable(value = "userEntityValidation", key = "#phoneNumber + '_' + #entityId")
     public boolean isUserInEntity(String phoneNumber, String entityId) {
         logger.info("Validating if user with phone number {} exists in entity with id {}", phoneNumber, entityId);
         return this.directoryRepository.existsByPhoneNumberAndEntityId(phoneNumber, entityId);
