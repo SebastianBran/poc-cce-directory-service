@@ -46,7 +46,7 @@ kind: Service
 metadata:
   name: transaction-service-svc
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: transaction-service
   ports:

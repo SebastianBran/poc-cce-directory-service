@@ -46,7 +46,7 @@ kind: Service
 metadata:
   name: directory-service-svc
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: directory-service
   ports:
