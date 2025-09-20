@@ -8,8 +8,25 @@ spring:
     password: admin123
   kafka:
     bootstrap-servers: localhost:9092
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/poc-cce
 
 rest:
   client:
     api-gateway:
       base-url: http://localhost:8082
+
+ibm:
+  mq:
+    queueManager: POC.CCE
+    channel: DEV.APP.SVRCONN
+    connName: ibm-mq-svc(1414)
+    user: app
+    password: admin
+
+app:
+  mq:
+    queueOut: DEV.QUEUE.1

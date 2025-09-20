@@ -8,8 +8,25 @@ spring:
     password: ${DB_PASSWORD}
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${OAUTH2_JWT_ISSUER_URI}
 
 rest:
   client:
     api-gateway:
       base-url: ${REST_CLIENT_API_GATEWAY_BASE_URL}
+
+ibm:
+  mq:
+    queueManager: ${MQ_QMGR}
+    channel: ${MQ_CHANNEL}
+    connName: ${MQ_CONN_NAME}
+    user: ${MQ_APP_USER}
+    password: ${MQ_APP_PASSWORD}
+
+app:
+  mq:
+    queueOut: ${MQ_QUEUE_OUT}

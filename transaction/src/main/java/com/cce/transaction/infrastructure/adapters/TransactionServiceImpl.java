@@ -1,10 +1,7 @@
 package com.cce.transaction.infrastructure.adapters;
 
 import com.cce.transaction.api.dto.response.ExistUserInEntityResponseDto;
-import com.cce.transaction.application.ports.DirectoryServiceClient;
-import com.cce.transaction.application.ports.NotificationService;
-import com.cce.transaction.application.ports.TransactionRepository;
-import com.cce.transaction.application.ports.TransactionService;
+import com.cce.transaction.application.ports.*;
 import com.cce.transaction.domain.entity.TransactionEntity;
 import com.cce.transaction.domain.entity.TransactionNotificationEntity;
 import org.slf4j.Logger;
@@ -22,20 +19,23 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
     private final DirectoryServiceClient directoryServiceClient;
     private final NotificationService notificationService;
+    private final MessageQueue messageQueue;
 
     public TransactionServiceImpl(
             TransactionRepository transactionRepository,
             DirectoryServiceClient directoryServiceClient,
-            NotificationService notificationService) {
+            NotificationService notificationService,
+            MessageQueue messageQueue) {
         this.transactionRepository = transactionRepository;
         this.directoryServiceClient = directoryServiceClient;
         this.notificationService = notificationService;
+        this.messageQueue = messageQueue;
     }
 
     @Override
     public List<TransactionEntity> getAll() {
         logger.info("Get All Transactions registries");
-        return this.transactionRepository.findAll();
+        return transactionRepository.findAll();
     }
 
     @Override
@@ -60,14 +60,19 @@ public class TransactionServiceImpl implements TransactionService {
                             transactionEntity.getAmount()
                     );
 
-            this.notificationService.sendNotification(transactionNotificationEntity);
+            notificationService.sendNotification(transactionNotificationEntity);
 
-            return this.transactionRepository.save(transactionEntity);
+            return transactionRepository.save(transactionEntity);
         }
 
-        logger.info("Receiver user with phone {} not found in entity {}",
+        String message = String.format(
+                "Receiver user with phone %s not found in entity %s",
                 transactionEntity.getReceiverPhoneNumber(),
-                transactionEntity.getEntityId());
+                transactionEntity.getEntityId()
+        );
+
+        logger.info(message);
+        messageQueue.sendMessage(message);
 
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
     }

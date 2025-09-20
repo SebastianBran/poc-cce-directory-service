@@ -38,6 +38,20 @@ spec:
               value: grpc
             - name: KAFKA_BOOTSTRAP_SERVERS
               value: kafka-svc:9092
+            - name: OAUTH2_JWT_ISSUER_URI
+              value: http://keycloak:8080/realms/poc-cce
+            - name: MQ_QMGR
+              value: POC.CCE
+            - name: MQ_CHANNEL
+              value: DEV.APP.SVRCONN
+            - name: MQ_CONN_NAME
+              value: ibm-mq-svc(1414)
+            - name: MQ_APP_USER
+              value: app
+            - name: MQ_APP_PASSWORD
+              value: admin
+            - name: MQ_QUEUE_OUT
+              value: DEV.QUEUE.1
           ports:
             - containerPort: 8081
 ---

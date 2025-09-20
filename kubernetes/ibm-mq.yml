@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ibm-mq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ibm-mq
+  template:
+    metadata:
+      labels:
+        app: ibm-mq
+    spec:
+      containers:
+        - name: ibm-mq
+          image: icr.io/ibm-messaging/mq:latest
+#          imagePullPolicy: IfNotPresent # Uncomment this line to use local image if already pulled
+          env:
+            - name: LICENSE
+              value: accept
+            - name: MQ_QMGR_NAME
+              value: POC.CCE
+            - name: MQ_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ibm-mq-passwords
+                  key: adminPassword
+            - name: MQ_APP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ibm-mq-passwords
+                  key: appPassword
+          ports:
+            - containerPort: 1414   # MQ
+            - containerPort: 9443   # Web Console
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ibm-mq-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: ibm-mq
+  ports:
+    - name: mq
+      port: 1414
+      targetPort: 1414
+    - name: web
+      port: 9443
+      targetPort: 9443
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ibm-mq-passwords
+type: Opaque
+stringData:
+  adminPassword: "admin"
+  appPassword: "admin"
