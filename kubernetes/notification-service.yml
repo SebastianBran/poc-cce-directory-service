@@ -38,6 +38,8 @@ spec:
               value: kafka-svc:9092
             - name: KAFKA_CONSUMER_GROUP_ID
               value: poc-cce
+            - name: OAUTH2_JWT_ISSUER_URI
+              value: http://keycloak:8080/realms/poc-cce
           ports:
             - containerPort: 8083
 ---

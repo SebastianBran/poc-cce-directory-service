@@ -17,6 +17,8 @@ spring:
 logging:
   pattern:
     level: "trace_id=%mdc{trace_id} span_id=%mdc{span_id} trace_flags=%mdc{trace_flags} %5p"
+  level:
+    org.springframework.security: DEBUG
 
 management:
   tracing:

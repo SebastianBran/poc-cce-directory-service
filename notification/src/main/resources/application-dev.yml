@@ -10,3 +10,8 @@ spring:
     bootstrap-servers: localhost:9092
     consumer:
       group-id: poc-cce
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/poc-cce

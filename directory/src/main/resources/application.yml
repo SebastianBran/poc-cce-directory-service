@@ -26,8 +26,12 @@ spring:
 
 logging:
   level:
-    org.springframework.cache: DEBUG
-    org.springframework.data.redis: DEBUG
+    org:
+      springframework:
+        cache: DEBUG
+        data:
+          redis: DEBUG
+        security: DEBUG
   pattern:
     level: "trace_id=%mdc{trace_id} span_id=%mdc{span_id} trace_flags=%mdc{trace_flags} %5p"
 
