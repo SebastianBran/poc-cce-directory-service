@@ -25,3 +25,38 @@ cd kubernetes
 ```shell
 kubectl apply -f .
 ```
+
+## Forward de puertos
+
+* Realizar el forward de puertos para acceder a los servicios desde el localhost
+
+```shell
+kubectl port-forward svc/grafana-svc 3000:3000
+
+kubectl port-forward svc/ibm-mq-svc 9443:9443 #Admin Console
+
+kubectl port-forward svc/keycloak 8081:8080
+
+kubectl port-forward svc/ingress-nginx-controller 8080:80 -n ingress-nginx
+```
+
+
+## Cargar imagen de IBM-MQ al cluster de Kubernetes (Opcional)
+
+* Descargar la imagen de IBM-MQ desde el repositorio de IBM (ICR)
+
+```shell
+podman pull --tls-verify=false icr.io/ibm-messaging/mq:latest
+```
+* Empaquetar la imagen en un archivo tar
+
+```shell
+podman save -o mq.tar icr.io/ibm-messaging/mq:latest
+```
+
+* Cargar la imagen en el cluster (Kind)
+
+```shell
+kind load image-archive mq.tar --name kind-cluster
+```
+ 
