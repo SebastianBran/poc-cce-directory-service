@@ -464,11 +464,11 @@ spec:
           name: controller
           ports:
             - containerPort: 80
-              hostPort: 80
+              hostPort: 80 # Comment this line if has issue with port binding
               name: http
               protocol: TCP
             - containerPort: 443
-              hostPort: 443
+              hostPort: 443 # Comment this line if has issue with port binding
               name: https
               protocol: TCP
             - containerPort: 8443
@@ -488,6 +488,14 @@ spec:
             requests:
               cpu: 100m
               memory: 90Mi
+# Uncomment below if you want to set resource limits
+#          resources:
+#            request:
+#              cpu: 250m
+#                memory: 256Mi
+#              limits:
+#                cpu: 1000m
+#                memory: 512Mi
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
