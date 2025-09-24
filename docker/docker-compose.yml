@@ -28,6 +28,7 @@ services:
       OTEL_SERVICE_NAME: directory-service
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
       OTEL_EXPORTER_OTLP_PROTOCOL: grpc
+      OAUTH2_JWT_ISSUER_URI: http://keycloak:8080/realms/poc-cce
     expose:
       - "8080"
 
@@ -47,6 +48,15 @@ services:
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
       OTEL_EXPORTER_OTLP_PROTOCOL: grpc
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      OAUTH2_JWT_ISSUER_URI: http://keycloak:8080/realms/poc-cce
+      # IBM MQ settings
+      # comment these lines if you don't want to use IBM MQ, specially on Apple M1/M2/M3/M4 chips
+      MQ_QMGR: POC.CCE
+      MQ_CHANNEL: DEV.APP.SVRCONN
+      MQ_CONN_NAME: ibm-mq(1414)
+      MQ_APP_USER: app
+      MQ_APP_PASSWORD: admin
+      MQ_QUEUE_OUT: DEV.QUEUE.1
     expose:
       - "8081"
 
@@ -65,7 +75,7 @@ services:
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
       OTEL_EXPORTER_OTLP_PROTOCOL: grpc
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      KAFKA_CONSUMER_GROUP_ID: poc-cce
+      OAUTH2_JWT_ISSUER_URI: http://keycloak:8080/realms/poc-cce
     expose:
       - "8083"
 
@@ -80,8 +90,8 @@ services:
 
   redis:
     image: redis:latest
-    ports:
-      - "6379:6379"
+    expose:
+      - "6379"
     command: ["redis-server", "--save", "", "--appendonly", "no"]
 
   redis-insight:
@@ -143,5 +153,30 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    expose:
+      - "9092"
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    command:
+      - start-dev
     ports:
-      - "9092:9092"
+      - "8080:8080"
+
+  # this image does not work on Apple M1/M2/M3/M4 chips
+  # comment this section if you don't want to use IBM MQ, specially on Apple M1/M2/M3/M4 chips
+  ibm-mq:
+    image: icr.io/ibm-messaging/mq:latest
+    environment:
+      LICENSE: accept
+      MQ_QMGR_NAME: POC.CCE
+      MQ_APP_PASSWORD: admin
+      MQ_ADMIN_PASSWORD: admin
+    expose:
+      - "1414"
+      - "9443"
+    ports:
+      - "9944:9443"
