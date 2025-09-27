@@ -1,0 +1,341 @@
+{
+	"info": {
+		"_postman_id": "7cd40fa5-0620-4da8-8ebf-5d7dcbe50a33",
+		"name": "POC-CCE",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16798744"
+	},
+	"item": [
+		{
+			"name": "directory",
+			"item": [
+				{
+					"name": "Get All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_BASE}}/directory",
+							"host": [
+								"{{URL_BASE}}"
+							],
+							"path": [
+								"directory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_BASE}}/directory/3",
+							"host": [
+								"{{URL_BASE}}"
+							],
+							"path": [
+								"directory",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phoneNumber\": \"998886665\",\n    \"entityId\": \"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_BASE}}/directory",
+							"host": [
+								"{{URL_BASE}}"
+							],
+							"path": [
+								"directory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Exist in Entity",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL_BASE}}/directory/user-exists-in-entity?phoneNumber=999888777&entityId=123",
+							"host": [
+								"{{URL_BASE}}"
+							],
+							"path": [
+								"directory",
+								"user-exists-in-entity"
+							],
+							"query": [
+								{
+									"key": "phoneNumber",
+									"value": "999888777"
+								},
+								{
+									"key": "entityId",
+									"value": "123"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "transaction",
+			"item": [
+				{
+					"name": "Get All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_BASE}}/transaction",
+							"host": [
+								"{{URL_BASE}}"
+							],
+							"path": [
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"senderPhoneNumber\": \"987654321\",\n    \"senderEmail\": \"test@gmail.com\",\n    \"receiverPhoneNumber\": \"999888777\",\n    \"amount\": 1000,\n    \"currency\": 1001,\n    \"entityId\": \"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_BASE}}/transaction",
+							"host": [
+								"{{URL_BASE}}"
+							],
+							"path": [
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "notification",
+			"item": [
+				{
+					"name": "Send",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"senderEmail\": \"sebastian@gmail.com\",\n    \"receiverPhoneNumber\": \"999888777\",\n    \"amount\": 1000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_BASE}}/notification/transaction",
+							"host": [
+								"{{URL_BASE}}"
+							],
+							"path": [
+								"notification",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"senderEmail\": \"sebastian@gmail.com\",\n    \"receiverPhoneNumber\": \"999888777\",\n    \"amount\": 1000\n}"
+						},
+						"url": {
+							"raw": "{{URL_BASE}}/notification/transaction",
+							"host": [
+								"{{URL_BASE}}"
+							],
+							"path": [
+								"notification",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "Auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.collectionVariables.set(\"ACCESS_TOKEN\", jsonData.access_token);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "poc-cce-user",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "P4WB49RYCD4CAax3mcSQ24gOPFLoqBqL",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "openid",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "test",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "test",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/realms/poc-cce/protocol/openid-connect/token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"realms",
+								"poc-cce",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{ACCESS_TOKEN}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL_BASE",
+			"value": ""
+		},
+		{
+			"key": "ACCESS_TOKEN",
+			"value": ""
+		}
+	]
+}
