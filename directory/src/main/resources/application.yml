@@ -1,11 +1,6 @@
-server:
-  port: 8080
-
 spring:
   application:
     name: directory
-  profiles:
-    active: ${ENV}
   jpa:
     show-sql: true
     properties:

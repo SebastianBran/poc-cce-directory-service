@@ -17,7 +17,7 @@ services:
     depends_on:
       - database
     environment:
-      ENV: prod
+      SPRING_PROFILES_ACTIVE: prod
       DB_HOST: database
       DB_PORT: 5432
       DB_NAME: poc-cce
@@ -37,20 +37,20 @@ services:
     depends_on:
       - database
     environment:
-      ENV: prod
+      SPRING_PROFILES_ACTIVE: prod
       DB_HOST: database
       DB_PORT: 5432
       DB_NAME: poc-cce
       DB_USER: admin
       DB_PASSWORD: admin123
-      REST_CLIENT_API_GATEWAY_BASE_URL: http://api-gateway:80
+      REST_CLIENT_DIRECTORY_SERVICE: http://directory-service:8080
       OTEL_SERVICE_NAME: transaction-service
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
       OTEL_EXPORTER_OTLP_PROTOCOL: grpc
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      KAFKA_CONSUMER_GROUP_ID: poc-cce
       OAUTH2_JWT_ISSUER_URI: http://keycloak:8080/realms/poc-cce
       # IBM MQ settings
-      # comment these lines if you don't want to use IBM MQ, specially on Apple M1/M2/M3/M4 chips
       MQ_QMGR: POC.CCE
       MQ_CHANNEL: DEV.APP.SVRCONN
       MQ_CONN_NAME: ibm-mq(1414)
@@ -58,14 +58,14 @@ services:
       MQ_APP_PASSWORD: admin
       MQ_QUEUE_OUT: DEV.QUEUE.1
     expose:
-      - "8081"
+      - "8080"
 
   notification-service:
     image: sebastianbran/poc-cce-notification-service:latest
     depends_on:
       - database
     environment:
-      ENV: prod
+      SPRING_PROFILES_ACTIVE: prod
       DB_HOST: database
       DB_PORT: 5432
       DB_NAME: poc-cce
@@ -75,9 +75,10 @@ services:
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
       OTEL_EXPORTER_OTLP_PROTOCOL: grpc
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      KAFKA_CONSUMER_GROUP_ID: poc-cce
       OAUTH2_JWT_ISSUER_URI: http://keycloak:8080/realms/poc-cce
     expose:
-      - "8083"
+      - "8080"
 
   database:
     image: postgres:latest

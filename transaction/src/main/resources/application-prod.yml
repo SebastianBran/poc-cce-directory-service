@@ -8,6 +8,8 @@ spring:
     password: ${DB_PASSWORD}
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    consumer:
+      group-id: ${KAFKA_CONSUMER_GROUP_ID}
   security:
     oauth2:
       resourceserver:
@@ -16,8 +18,7 @@ spring:
 
 rest:
   client:
-    api-gateway:
-      base-url: ${REST_CLIENT_API_GATEWAY_BASE_URL}
+    directory-service: ${REST_CLIENT_DIRECTORY_SERVICE}
 
 ibm:
   mq:

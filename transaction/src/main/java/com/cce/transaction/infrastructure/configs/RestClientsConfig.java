@@ -13,14 +13,14 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 @Configuration
 public class RestClientsConfig {
-    @Value("${rest.client.api-gateway.base-url}")
-    private String apiGatewayBaseUrl;
+    @Value("${rest.client.directory-service}")
+    private String directoryServiceBaseUrl;
 
     @Bean
     DirectoryServiceClient directoryServiceClient(RestClient.Builder restClientBuilder,
                                                   RestClientBuilderConfigurer configurer) {
         RestClient restClient = configurer.configure(restClientBuilder)
-                .baseUrl(apiGatewayBaseUrl)
+                .baseUrl(directoryServiceBaseUrl)
                 .requestInterceptor((request, body, execution) -> {
                     var authentication = SecurityContextHolder.getContext().getAuthentication();
                     if (authentication != null && authentication.getCredentials() != null) {

@@ -1,3 +1,6 @@
+server:
+  port: 8081
+
 spring:
   config:
     activate:
@@ -8,16 +11,17 @@ spring:
     password: admin123
   kafka:
     bootstrap-servers: localhost:9092
+    consumer:
+      group-id: poc-cce
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/poc-cce
+          issuer-uri: http://localhost:8081/realms/poc-cce
 
 rest:
   client:
-    api-gateway:
-      base-url: http://localhost:8082
+    directory-service: http://localhost:8080
 
 ibm:
   mq:
