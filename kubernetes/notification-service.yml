@@ -16,7 +16,7 @@ spec:
         - name: notification-service
           image: sebastianbran/poc-cce-notification-service:latest
           env:
-            - name: ENV
+            - name: SPRING_PROFILES_ACTIVE
               value: prod
             - name: DB_HOST
               value: database-svc
@@ -41,7 +41,7 @@ spec:
             - name: OAUTH2_JWT_ISSUER_URI
               value: http://keycloak:8080/realms/poc-cce
           ports:
-            - containerPort: 8083
+            - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
@@ -53,5 +53,5 @@ spec:
     app: notification-service
   ports:
     - protocol: TCP
-      port: 8083
-      targetPort: 8083
+      port: 8080
+      targetPort: 8080

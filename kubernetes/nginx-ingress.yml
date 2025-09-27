@@ -20,12 +20,12 @@ spec:
               service:
                 name: notification-service-svc
                 port:
-                  number: 8083
+                  number: 8080
           - path: /api/v1/transaction
             pathType: Prefix
             backend:
               service:
                 name: transaction-service-svc
                 port:
-                  number: 8081
+                  number: 8080
 

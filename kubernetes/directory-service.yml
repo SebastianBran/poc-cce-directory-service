@@ -16,7 +16,7 @@ spec:
         - name: directory-service
           image: sebastianbran/poc-cce-directory-service:latest
           env:
-            - name: ENV
+            - name: SPRING_PROFILES_ACTIVE
               value: prod
             - name: DB_HOST
               value: database-svc
